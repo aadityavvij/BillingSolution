@@ -1,5 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
+::-webkit-scrollbar {
+    width: 12px;
+    background: #141414;
+}
+
+::-webkit-scrollbar-track {
+    width: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #434343;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #353535;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+}
+
 html {
   font-size: 14px;
 }
