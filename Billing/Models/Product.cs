@@ -11,10 +11,11 @@ namespace Billing.Models
         [Required]
         [DisplayName("Product Name")]
         public string Name { get; set; }
+        [Required]
         [DisplayName("Unique Code")]
-        [StringLength(13, MinimumLength = 13, ErrorMessage = "Unique Code must be 13 digits")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Unique Code must contain only numbers")]
         public long UniqueCode { get; set; }
+        [Required]    
+        public int Price { get; set; }
         //[NotMapped]
         //[DisplayName("Upload File")]
         //public IFormFile ImageFile { get; set; }

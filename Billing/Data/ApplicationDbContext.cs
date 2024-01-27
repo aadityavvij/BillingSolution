@@ -17,20 +17,23 @@ namespace Billing.Data
                 {
                     Id = 1,
                     Name = "Product 1",
-                    UniqueCode = 1234567890123
+                    UniqueCode = 1234567890123,
+                    Price = 999
                 },
                 new Product
                 {
                     Id = 2,
                     Name = "Product 2",
-                    UniqueCode = 9876543210987
-                },
+                    UniqueCode = 9876543210987,
+					Price = 999
+				},
                 new Product
                 {
                     Id = 3,
                     Name = "Product 3",
-                    UniqueCode = 1112223334445
-                }
+                    UniqueCode = 1112223334445,
+					Price = 999
+				}
             );
         }
 
