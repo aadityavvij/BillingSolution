@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Billing.Models;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Billing.Controllers
 {
@@ -66,6 +67,21 @@ namespace Billing.Controllers
 			{
 				return View();
 			}
+		}
+
+		[HttpPost]
+		public IActionResult Delete(Product product)
+		{
+			Product? pr = _db.Products.Find(product.Id);
+			if(pr == null)
+			{
+				TempData["FailureMessage"] = "Product Not Found";
+				return RedirectToAction("Edit");
+			}
+			_db.Remove(pr);
+			_db.SaveChanges();
+			TempData["SuccessMessage"] = "Deleted successfully";
+			return RedirectToAction("Index");
 		}
 	}
 }
