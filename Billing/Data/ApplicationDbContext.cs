@@ -35,8 +35,32 @@ namespace Billing.Data
 					Price = 999
 				}
             );
-        }
+			modelBuilder.Entity<Bill>().HasData(
+	            new Bill
+	            {
+		            Id = 1,
+					products = new List<Product>
+		            {
+			            new Product
+			            {
+				            Id = 1,
+				            Name = "Product1",
+				            UniqueCode = 123456,
+				            Price = 10
+			            },
+			            new Product
+			            {
+				            Id = 2,
+				            Name = "Product2",
+				            UniqueCode = 789012,
+				            Price = 20
+			            },
+                    }
+	            }
+            );
 
+		}
+		public DbSet<Bill> Bills { get; set; }
         public DbSet<Product> Products { get; set; }
     }
 }

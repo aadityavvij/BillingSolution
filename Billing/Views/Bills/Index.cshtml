@@ -1,6 +1,64 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@model List<Bill>
+<div class="container">
+	<div class="row pt-4 pb-4">
+		<div class="col-6">
+			<h1>Products</h1>
+			@if (TempData["SuccessMessage"] != null)
+			{
+				<div class="alert alert-success alert-dismissible" role="alert">
+					<div>@TempData["SuccessMessage"]</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			}
+			@if (TempData["FailureMessage"] != null)
+			{
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<div>@TempData["FailureMessage"]</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			}
+		</div>
+		<div class="col-6 text-end">
+			<a asp-controller="Bills" asp-action="Create" class="btn btn-light">
+				<i class="bi bi-plus-circle"></i> New Bill
+			</a>
+		</div>
+	</div>
 
-<p>Use this page to detail your site's privacy policy.</p>
+	<table class="table" style="background-color: #141414; color: #dcdcdc;">
+		<thead>
+			<tr>
+				<th>
+					Bill Id
+				</th>
+				<th>
+					Products
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@foreach (var obj in Model)
+			{
+				<tr>
+					<td>
+						@obj.Id
+					</td>
+					<td>
+						@obj.products
+					</td>
+					<td>
+						<div role="group" class="w-75 btn-group ">
+							<a asp-controller="Bills" asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-light">
+								Edit
+							</a>
+
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+</div>

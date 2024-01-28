@@ -16,8 +16,5 @@ namespace Billing.Models
         public long UniqueCode { get; set; }
         [Required]    
         public int Price { get; set; }
-        //[NotMapped]
-        //[DisplayName("Upload File")]
-        //public IFormFile ImageFile { get; set; }
-    }
+	}
 }
