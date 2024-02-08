@@ -19,7 +19,7 @@
 			}
 		</div>
 		<div class="col-6 text-end">
-			<a asp-controller="Products" asp-action="Create" class="btn btn-light">
+			<a id="addProductsBtn" class="btn btn-light">
 				<i class="bi bi-plus-circle"></i> Add Products
 			</a>
 		</div>
@@ -84,3 +84,22 @@
 	<a asp-controller="Bills" asp-action="Index" class="btn btn-outline-light">Back to list</a>
 
 </div>
+
+<script>
+	// Function to handle click event
+	document.getElementById("addProductsBtn").addEventListener("click", function () {
+		// Get the id from the current URL
+		var currentPageId = getCurrentPageId();
+
+		// Navigate to the desired URL with the id
+		window.location.href = "/BillDetails/Add/" + currentPageId;
+	});
+
+	// Function to get the id from the current URL
+	function getCurrentPageId() {
+		// Your logic to extract the id from the current URL
+		// For demonstration purposes, let's assume the id is extracted from the query string
+		var urlParams = new URLSearchParams(window.location.search);
+		return urlParams.get('id');
+	}
+</script>

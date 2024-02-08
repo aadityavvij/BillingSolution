@@ -1,33 +1,26 @@
-﻿@model Bill
-<form method="post">
-	<div class="p-3 mt-4">
-		<div class="row pb-2">
-			<h2 class="text-primary">Make Bill</h2>
-			<hr />
-		</div>
-		@if (TempData["SuccessMessage"] != null)
-		{
-			<div class="alert alert-success alert-dismissible" role="alert">
-				<div>@TempData["SuccessMessage"]</div>
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		}
-		@if (TempData["FailureMessage"] != null)
-		{
-			<div class="alert alert-danger alert-dismissible" role="alert">
-				<div>@TempData["FailureMessage"]</div>
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		}
-		<div class="mb-3">
-			<label asp-for="Id"></label>
-			<input asp-for="Id" name="UniqueCode" type="number" class="form-control" />
-		</div>
-		<div class="mb-3">
-			<label>Enter Unique Code</label>
-			<input name="UniqueCode" type="number" class="form-control" />
-		</div>
-		<button type="submit" class="btn btn-primary">Add</button>
-		<a asp-controller="Products" asp-action="Index" class="btn btn-outline-light">Back to list</a>
-	</div>
+﻿@model Customer
+<form id="customerForm">
+    <div class="p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Make Bill</h2>
+            <hr />
+        </div>
+        @* Other code here *@
+
+        <div class="mb-3">
+            <label asp-for="PhNo"></label>
+            <input asp-for="PhNo" id="PhNoInput" class="form-control" />
+            <span asp-validation-for="PhNo" class="text-danger"></span>
+        </div>
+    </div>
 </form>
+
+<button id="enterButton" class="btn btn-primary">Enter</button>
+<a asp-controller="Bills" asp-action="Index" class="btn btn-outline-light">Back to list</a>
+
+<script>
+    document.getElementById("enterButton").addEventListener("click", function () {
+        var phNo = document.getElementById("PhNoInput").value;
+        window.location.href = "/Bills/Customer/" + encodeURIComponent(phNo);
+    });
+</script>
