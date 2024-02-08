@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 
 namespace Billing.Models
 {
@@ -7,6 +8,6 @@ namespace Billing.Models
 		[Key]
 		public int Id { get; set; }
 		[Required]
-		public List<Product> products { get; set; }
+		public ICollection<Product> Products { get; } = new List<Product>();
 	}
 }

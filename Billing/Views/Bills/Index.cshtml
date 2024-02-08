@@ -1,8 +1,8 @@
-﻿@model List<Bill>
+﻿@model List<Invoice>
 <div class="container">
 	<div class="row pt-4 pb-4">
 		<div class="col-6">
-			<h1>Products</h1>
+			<h1>Invoices</h1>
 			@if (TempData["SuccessMessage"] != null)
 			{
 				<div class="alert alert-success alert-dismissible" role="alert">
@@ -29,10 +29,16 @@
 		<thead>
 			<tr>
 				<th>
-					Bill Id
+					Invoice Id
 				</th>
 				<th>
-					Products
+					Customer Name
+				</th>
+				<th>
+					Customer Phone
+				</th>
+				<th>
+					Customer Email
 				</th>
 				<th></th>
 			</tr>
@@ -43,15 +49,54 @@
 			{
 				<tr>
 					<td>
-						@obj.Id
+						@obj.InvoiceId
 					</td>
 					<td>
-						@obj.products
+						@{
+							string customerName;
+							if (obj.Customer != null)
+							{
+								customerName = obj.Customer.Name;
+							}
+							else
+							{
+								customerName = "Unknown";
+							}
+						}
+						@customerName
+					</td>
+					<td>
+						@{
+							long customerPh;
+							if (obj.Customer != null)
+							{
+								customerPh = obj.Customer.PhNo;
+							}
+							else
+							{
+								customerPh = 8888888888;
+							}
+						}
+						@customerPh
+					</td>
+					<td>
+						@{
+							string customerEmail;
+							if (obj.Customer != null)
+							{
+								customerEmail = obj.Customer.email;
+							}
+							else
+							{
+								customerEmail = "Unknown";
+							}
+						}
+						@customerEmail
 					</td>
 					<td>
 						<div role="group" class="w-75 btn-group ">
-							<a asp-controller="Bills" asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-light">
-								Edit
+							<a asp-controller="Bills" asp-action="Details" asp-route-Id="@obj.InvoiceId" class="btn btn-light">
+								Products Purchased
 							</a>
 
 						</div>

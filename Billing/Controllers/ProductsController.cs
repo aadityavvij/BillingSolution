@@ -22,21 +22,14 @@ namespace Billing.Controllers
 			return View(product);
 		}
 		[HttpPost]
-		public IActionResult Create([Bind("Name,UniqueCode,Price")] Product product)
+		public IActionResult Create(Product product)
 		{
-			if (ModelState.IsValid)
-			{
-				// Id is 0 or not provided, it's a new entity, add it
-				_db.Products.Add(product);
+			_db.Products.Add(product);
 
-				_db.SaveChanges();
-				TempData["SuccessMessage"] = "Added successfully";
-				return RedirectToAction("Index");
-			}
-			else
-			{
-				return View();
-			}
+			_db.SaveChanges();
+			TempData["SuccessMessage"] = "Added successfully";
+			return RedirectToAction("Index");
+			
 		}
 		public IActionResult Edit(int? id)
 		{
@@ -44,7 +37,7 @@ namespace Billing.Controllers
 			{
 				return View();
 			}
-			Product? product = _db.Products.FirstOrDefault(u => u.Id == id);
+			Product? product = _db.Products.FirstOrDefault(u => u.ProductId == id);
 			if (product == null)
 			{
 				TempData["FailureMessage"] = "Not Able to Find The Product";
@@ -55,24 +48,16 @@ namespace Billing.Controllers
 		[HttpPost]
 		public IActionResult Edit(Product product)
 		{
-			if (ModelState.IsValid)
-			{
-				// If Id is greater than 0, it's an existing entity, update it
-				_db.Products.Update(product);
-				_db.SaveChanges();
-				TempData["SuccessMessage"] = "Edited successfully";
-				return RedirectToAction("Index");
-			}
-			else
-			{
-				return View();
-			}
+			_db.Products.Update(product);
+			_db.SaveChanges();
+			TempData["SuccessMessage"] = "Edited successfully";
+			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
 		public IActionResult Delete(Product product)
 		{
-			Product? pr = _db.Products.Find(product.Id);
+			Product? pr = _db.Products.Find(product.ProductId);
 			if(pr == null)
 			{
 				TempData["FailureMessage"] = "Product Not Found";

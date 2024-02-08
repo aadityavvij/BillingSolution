@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model List<InvoiceProduct>
 <div class="container">
 	<div class="row pt-4 pb-4">
 		<div class="col-6">
@@ -17,11 +17,6 @@
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
 			}
-		</div>
-		<div class="col-6 text-end">
-			<a asp-controller="Products" asp-action="Create" class="btn btn-light">
-				<i class="bi bi-plus-circle"></i> Add Product
-			</a>
 		</div>
 	</div>
 
@@ -42,29 +37,45 @@
 		</thead>
 
 		<tbody>
-			@foreach (var obj in Model)
+			@if (Model != null)
 			{
-				<tr>
-					<td>
-						@obj.Name
-					</td>
-					<td>
-						@obj.ProductId
-					</td>
-					<td>
-						@obj.Price
-					</td>
-					<td>
-						<div role="group" class="w-75 btn-group ">
-							<a asp-controller="Products" asp-action="Edit" asp-route-Id="@obj.ProductId" class="btn btn-light">
-								Edit
-							</a>
-
-						</div>
-					</td>
-				</tr>
+				@foreach (var obj in Model)
+				{
+					<tr>
+						<td>
+							@obj.Product.Name
+						</td>
+						<td>
+							@obj.ProductId
+						</td>
+						<td>
+							@obj.Product.Price
+						</td>
+					</tr>
+				}
 			}
+			else
+			{
+				<p>No data available.</p>
+			}
+			@{
+				decimal sum = 0;
+				foreach (var obj in Model)
+				{
+					sum = sum + obj.Product.Price;
+				}
+			}
+			<tr>
+				<td>
+					Grand Total
+				</td>
+				<td></td>
+				<td>
+					@sum
+				</td>
+			</tr>
 		</tbody>
 	</table>
+	<a asp-controller="Bills" asp-action="Index" class="btn btn-outline-light">Back to list</a>
 
 </div>
