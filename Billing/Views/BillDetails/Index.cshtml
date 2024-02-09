@@ -89,10 +89,11 @@
 	// Function to handle click event
 	document.getElementById("addProductsBtn").addEventListener("click", function () {
 		// Get the id from the current URL
-		var currentPageId = getCurrentPageId();
+		var currentPageId = window.location.href[window.location.href.length - 1];
+		console.log(currentPageId);
 
 		// Navigate to the desired URL with the id
-		window.location.href = "/BillDetails/Add/" + currentPageId;
+		window.location.href = "/BillDetails/Add/"+currentPageId;
 	});
 
 	// Function to get the id from the current URL

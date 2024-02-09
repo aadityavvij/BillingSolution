@@ -1,1 +1,83 @@
-﻿
+﻿@model List<Product>
+<div class="container">
+	<div class="row pt-4 pb-4">
+		<div class="col-6">
+			<h1>Products</h1>
+			@if (TempData["SuccessMessage"] != null)
+			{
+				<div class="alert alert-success alert-dismissible" role="alert">
+					<div>@TempData["SuccessMessage"]</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			}
+			@if (TempData["FailureMessage"] != null)
+			{
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<div>@TempData["FailureMessage"]</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			}
+		</div>
+		<div class="col-6 text-end">
+			<a asp-controller="BillDetails" asp-action="Index" class="btn btn-light">
+				<i class="bi bi-plus-circle"></i> Go Back
+			</a>
+		</div>
+	</div>
+	<table class="table" style="background-color: #141414; color: #dcdcdc;">
+		<thead>
+			<tr>
+				<th>
+					Product Name
+				</th>
+				<th>
+					Product Id
+				</th>
+				<th>
+					Price
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@foreach (var obj in Model)
+			{
+				<form method="post">
+					<tr>
+						<td>
+							@obj.ProductId
+						</td>
+					<td>
+							@obj.Name
+					</td>
+						<td>
+							@obj.Price"
+						</td>
+						<td>
+							<input name="ProductId" asp-for="@obj.ProductId" class=" form-control" hidden/>
+						</td>
+						<td>
+							<input name="InvoiceId" class="getID" class=" form-control" hidden/>
+						</td>
+						<td>
+							<div role="group" class="w-75 btn-group ">
+								<button type="submit" class="btn btn-primary">Add</button>
+							</div>
+						</td>
+					</tr>
+				</form>
+			}
+		</tbody>
+	</table>
+
+</div>
+<script>
+	// Function to handle click event
+	var currentPageId = window.location.href[window.location.href.length - 1];
+	var x= document.getElementsByClassName("getID");
+	var x = document.getElementsByClassName("getID");
+	for (var i = 0; i < x.length; i++) {
+		x[i].value = currentPageId;
+	}
+</script>

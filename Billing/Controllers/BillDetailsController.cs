@@ -31,7 +31,26 @@ namespace Billing.Controllers
 		}
 		public IActionResult Add(long? id)
 		{
-			return View();
+			List<Product> objCategoryList = _db.Products.ToList();
+			return View(objCategoryList);
 		}
+
+		[HttpPost]
+		public IActionResult Add(InvoiceProduct iProduct)
+		{
+			
+			var newInvoiceProduct = new InvoiceProduct
+			{
+				InvoiceId = iProduct.InvoiceId,
+				ProductId = iProduct.ProductId
+			};
+			_db.InvoiceProducts.Add(newInvoiceProduct);
+
+			_db.SaveChanges();
+			TempData["SuccessMessage"] = "Added successfully";
+			return RedirectToAction("Add");
+
+		}
+
 	}
 }
