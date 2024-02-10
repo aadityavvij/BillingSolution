@@ -13,7 +13,7 @@ namespace Billing.Controllers
 
         public IActionResult Index()
         {
-			List<Product> objCategoryList = _db.Products.ToList();
+			var objCategoryList = _db.Products.ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
 		public IActionResult Create()
@@ -25,7 +25,6 @@ namespace Billing.Controllers
 		public IActionResult Create(Product product)
 		{
 			_db.Products.Add(product);
-
 			_db.SaveChanges();
 			TempData["SuccessMessage"] = "Added successfully";
 			return RedirectToAction("Index");

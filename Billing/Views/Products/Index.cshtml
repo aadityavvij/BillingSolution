@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model IEnumerable<IGrouping<string, Product>>
 <div class="container">
 	<div class="row pt-4 pb-4">
 		<div class="col-6">
@@ -32,6 +32,9 @@
 					Product Name
 				</th>
 				<th>
+					Quantity
+				</th>
+				<th>
 					Product Id
 				</th>
 				<th>
@@ -42,27 +45,54 @@
 		</thead>
 
 		<tbody>
-			@foreach (var obj in Model)
+			@foreach (var group in Model)
 			{
 				<tr>
 					<td>
-						@obj.Name
+						@group.Key
 					</td>
 					<td>
-						@obj.ProductId
+						@group.Count()
+					</td>
+					@{
+						var firstObj = group.First();
+						var restObjs = group.Skip(1);
+					}
+					<td>
+						@firstObj.ProductId
 					</td>
 					<td>
-						@obj.Price
+						@firstObj.Price
 					</td>
 					<td>
 						<div role="group" class="w-75 btn-group ">
-							<a asp-controller="Products" asp-action="Edit" asp-route-Id="@obj.ProductId" class="btn btn-light">
+							<a asp-controller="Products" asp-action="Edit" asp-route-Id="@firstObj.ProductId" class="btn btn-light">
 								Edit
 							</a>
-
 						</div>
 					</td>
+					@foreach (var obj in restObjs)
+					{
+					<tr>
+						<td></td>
+						<td></td>
+						<td>
+								@obj.ProductId
+						</td>
+						<td>
+								@obj.Price
+						</td>
+						<td>
+							<div role="group" class="w-75 btn-group ">
+								<a asp-controller="Products" asp-action="Edit" asp-route-Id="@obj.ProductId" class="btn btn-light">
+									Edit
+								</a>
+							</div>
+						</td>
+					</tr>
+					}
 				</tr>
+				
 			}
 		</tbody>
 	</table>

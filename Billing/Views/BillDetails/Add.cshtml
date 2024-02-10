@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model IEnumerable<IGrouping<string, Product>>
 <div class="container">
 	<div class="row pt-4 pb-4">
 		<div class="col-6">
@@ -19,7 +19,7 @@
 			}
 		</div>
 		<div class="col-6 text-end">
-			<a asp-controller="BillDetails" asp-action="Index" class="btn btn-light">
+			<a id="goBackBtn" class="btn btn-light">
 				<i class="bi bi-plus-circle"></i> Go Back
 			</a>
 		</div>
@@ -31,34 +31,67 @@
 					Product Name
 				</th>
 				<th>
+					Quantity
+				</th>
+				<th>
 					Product Id
 				</th>
 				<th>
 					Price
 				</th>
-				<th></th>
 			</tr>
 		</thead>
 
 		<tbody>
-			@foreach (var obj in Model)
+			@foreach (var group in Model)
 			{
+				
+				var firstObj = group.First();
+				var restObjs = group.Skip(1);
 				<form method="post">
 					<tr>
-						<td>
-							@obj.ProductId
-						</td>
 					<td>
-							@obj.Name
+						@group.Key
 					</td>
+					<td>
+						@group.Count()
+					</td>
+					<td>
+						@firstObj.ProductId
+					</td>
+					<td>
+						@firstObj.Price
+					</td>
+					<td>
+						<input name="ProductId" asp-for="@firstObj.ProductId" class=" form-control" hidden />
+					</td>
+					<td>
+						<input name="InvoiceId" class="getID" class=" form-control" hidden />
+					</td>
+					<td>
+						<div role="group" class="w-75 btn-group ">
+							<button type="submit" class="btn btn-primary">Add</button>
+						</div>
+					</td>
+					</tr>
+				</form>
+					@foreach (var obj in restObjs)
+					{
+				<form method="post">
+					<tr>
+						<td></td>
+						<td></td>
 						<td>
-							@obj.Price"
+								@obj.ProductId
 						</td>
 						<td>
-							<input name="ProductId" asp-for="@obj.ProductId" class=" form-control" hidden/>
+								@obj.Price
 						</td>
 						<td>
-							<input name="InvoiceId" class="getID" class=" form-control" hidden/>
+							<input name="ProductId" asp-for="@obj.ProductId" class=" form-control" hidden />
+						</td>
+						<td>
+							<input name="InvoiceId" class="getID" class="form-control" hidden />
 						</td>
 						<td>
 							<div role="group" class="w-75 btn-group ">
@@ -67,7 +100,11 @@
 						</td>
 					</tr>
 				</form>
+					}
+				
+
 			}
+			
 		</tbody>
 	</table>
 
@@ -75,9 +112,15 @@
 <script>
 	// Function to handle click event
 	var currentPageId = window.location.href[window.location.href.length - 1];
-	var x= document.getElementsByClassName("getID");
 	var x = document.getElementsByClassName("getID");
 	for (var i = 0; i < x.length; i++) {
 		x[i].value = currentPageId;
 	}
+	document.getElementById("goBackBtn").addEventListener("click", function () {
+		// Get the id from the current URL
+		console.log(currentPageId);
+
+		// Navigate to the desired URL with the id
+		window.location.href = "/BillDetails/Index/" + currentPageId;
+	});
 </script>

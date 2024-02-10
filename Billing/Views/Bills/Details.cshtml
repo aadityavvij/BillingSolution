@@ -42,8 +42,60 @@
 		</thead>
 
 		<tbody>
+			@{
+				var groupedProducts = Model.GroupBy(p => p.Product.Name);
+			}
 			@if (Model != null)
 			{
+				@foreach (var group in groupedProducts)
+				{
+					<tr>
+						<td>
+							@group.Key
+						</td>
+						<td>
+							@group.Count()
+						</td>
+						@{
+							var firstObj = group.First();
+							var restObjs = group.Skip(1);
+						}
+						<td>
+							@firstObj.ProductId
+						</td>
+						<td>
+							@firstObj.Product.Price
+						</td>
+						<td>
+							<div role="group" class="w-75 btn-group ">
+								<a asp-controller="Products" asp-action="Edit" asp-route-Id="@firstObj.ProductId" class="btn btn-light">
+									Edit
+								</a>
+							</div>
+						</td>
+						@foreach (var obj in restObjs)
+						{
+						<tr>
+							<td></td>
+							<td></td>
+							<td>
+									@obj.ProductId
+							</td>
+							<td>
+									@obj.Product.Price
+							</td>
+							<td>
+								<div role="group" class="w-75 btn-group ">
+									<a asp-controller="Products" asp-action="Edit" asp-route-Id="@obj.ProductId" class="btn btn-light">
+										Edit
+									</a>
+								</div>
+							</td>
+						</tr>
+						}
+					</tr>
+
+				}
 				@foreach (var obj in Model)
 				{
 					<tr>

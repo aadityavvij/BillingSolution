@@ -31,7 +31,7 @@ namespace Billing.Controllers
 		}
 		public IActionResult Add(long? id)
 		{
-			List<Product> objCategoryList = _db.Products.ToList();
+			var objCategoryList = _db.Products.ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
 
