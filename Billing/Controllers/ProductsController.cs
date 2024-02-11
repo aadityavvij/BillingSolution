@@ -24,12 +24,20 @@ namespace Billing.Controllers
 		[HttpPost]
 		public IActionResult Create(Product product)
 		{
-			_db.Products.Add(product);
-			_db.SaveChanges();
-			TempData["SuccessMessage"] = "Added successfully";
-			return RedirectToAction("Index");
-			
+			try
+			{
+				_db.Products.Add(product);
+				_db.SaveChanges();
+				TempData["SuccessMessage"] = "Added successfully";
+				return RedirectToAction("Index");
+			}
+			catch (Exception ex)
+			{
+				TempData["FailureMessage"] = "An error occurred while adding the product";
+				return View();
+			}
 		}
+
 		public IActionResult Edit(int? id)
 		{
 			if (id == null || id == 0)
@@ -47,11 +55,20 @@ namespace Billing.Controllers
 		[HttpPost]
 		public IActionResult Edit(Product product)
 		{
-			_db.Products.Update(product);
-			_db.SaveChanges();
-			TempData["SuccessMessage"] = "Edited successfully";
-			return RedirectToAction("Index");
+			try
+			{
+				_db.Products.Update(product);
+				_db.SaveChanges();
+				TempData["SuccessMessage"] = "Edited successfully";
+				return RedirectToAction("Index");
+			}
+			catch (Exception ex)
+			{
+				TempData["FailureMessage"] = "An error occurred while editing the product";
+				return View();
+			}
 		}
+
 
 		[HttpPost]
 		public IActionResult Delete(Product product)

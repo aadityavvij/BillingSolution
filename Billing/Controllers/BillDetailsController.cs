@@ -38,25 +38,33 @@ namespace Billing.Controllers
 		[HttpPost]
 		public IActionResult Add(InvoiceProduct iProduct)
 		{
-			
-			var newInvoiceProduct = new InvoiceProduct
+			try
 			{
-				InvoiceId = iProduct.InvoiceId,
-				ProductId = iProduct.ProductId
-			};
-			_db.InvoiceProducts.Add(newInvoiceProduct);
-			Product? product = _db.Products.FirstOrDefault(p => p.ProductId == iProduct.ProductId);
-			if (product != null)
-			{
-				product.Sold = true;
-				_db.Products.Update(product);
+				var newInvoiceProduct = new InvoiceProduct
+				{
+					InvoiceId = iProduct.InvoiceId,
+					ProductId = iProduct.ProductId
+				};
+				_db.InvoiceProducts.Add(newInvoiceProduct);
+
+				Product? product = _db.Products.FirstOrDefault(p => p.ProductId == iProduct.ProductId);
+				if (product != null)
+				{
+					product.Sold = true;
+					_db.Products.Update(product);
+				}
+
+				_db.SaveChanges();
+				TempData["SuccessMessage"] = "Added successfully";
+				return RedirectToAction("Add");
 			}
-
-			_db.SaveChanges();
-			TempData["SuccessMessage"] = "Added successfully";
-			return RedirectToAction("Add");
-
+			catch (Exception ex)
+			{
+				TempData["FailureMessage"] = "An error occurred while adding the product to the invoice";
+				return RedirectToAction("Add");
+			}
 		}
+
 
 	}
 }
