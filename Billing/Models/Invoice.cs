@@ -7,11 +7,11 @@ namespace Billing.Models
 	{
 		[Key]
         public long InvoiceId { get; set; }
-		[Required]
+        public bool Confirmed { get; set; }
+        [Required]
 		[ForeignKey("Customer")]
 		public int CustomerId { get; set; }
 		public Customer Customer { get; set; }
 		public ICollection<InvoiceProduct> InvoiceProducts { get; set; }
-
 	}
 }

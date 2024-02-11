@@ -13,7 +13,7 @@ namespace Billing.Controllers
 
         public IActionResult Index()
         {
-			var objCategoryList = _db.Products.ToList().GroupBy(p => p.Name);
+			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
 		public IActionResult Create()

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Billing.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240208070936_InitialDatabase")]
+    [Migration("20240211040418_InitialDatabase")]
     partial class InitialDatabase
     {
         /// <inheritdoc />
@@ -46,22 +46,6 @@ namespace Billing.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            Name = "John Doe",
-                            PhNo = 1234567890L,
-                            email = "john@example.com"
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            Name = "Jane Smith",
-                            PhNo = 9876543210L,
-                            email = "jane@example.com"
-                        });
                 });
 
             modelBuilder.Entity("Billing.Models.Invoice", b =>
@@ -72,6 +56,9 @@ namespace Billing.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<long>("InvoiceId"));
 
+                    b.Property<bool>("Confirmed")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
@@ -80,18 +67,6 @@ namespace Billing.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Invoices");
-
-                    b.HasData(
-                        new
-                        {
-                            InvoiceId = 1L,
-                            CustomerId = 1
-                        },
-                        new
-                        {
-                            InvoiceId = 2L,
-                            CustomerId = 2
-                        });
                 });
 
             modelBuilder.Entity("Billing.Models.InvoiceProduct", b =>
@@ -115,26 +90,6 @@ namespace Billing.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("InvoiceProducts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            InvoiceId = 1L,
-                            ProductId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            InvoiceId = 1L,
-                            ProductId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            InvoiceId = 2L,
-                            ProductId = 3
-                        });
                 });
 
             modelBuilder.Entity("Billing.Models.Product", b =>
@@ -152,29 +107,12 @@ namespace Billing.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<bool>("Sold")
+                        .HasColumnType("boolean");
+
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            Name = "Product A",
-                            Price = 10.50m
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            Name = "Product B",
-                            Price = 20.75m
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            Name = "Product C",
-                            Price = 20.75m
-                        });
                 });
 
             modelBuilder.Entity("Billing.Models.Invoice", b =>

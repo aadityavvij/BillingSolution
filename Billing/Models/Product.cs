@@ -15,6 +15,7 @@ namespace Billing.Models
         public string Name { get; set; }
         [Required]
         public decimal Price { get; set; }
-		public ICollection<InvoiceProduct> InvoiceProducts { get; set; }
+        public bool Sold { get; set; }
+        public ICollection<InvoiceProduct> InvoiceProducts { get; set; }
 	}
 }

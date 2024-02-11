@@ -31,7 +31,7 @@ namespace Billing.Controllers
 		}
 		public IActionResult Add(long? id)
 		{
-			var objCategoryList = _db.Products.ToList().GroupBy(p => p.Name);
+			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
 
@@ -45,6 +45,12 @@ namespace Billing.Controllers
 				ProductId = iProduct.ProductId
 			};
 			_db.InvoiceProducts.Add(newInvoiceProduct);
+			Product? product = _db.Products.FirstOrDefault(p => p.ProductId == iProduct.ProductId);
+			if (product != null)
+			{
+				product.Sold = true;
+				_db.Products.Update(product);
+			}
 
 			_db.SaveChanges();
 			TempData["SuccessMessage"] = "Added successfully";

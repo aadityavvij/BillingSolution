@@ -3,8 +3,6 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace Billing.Migrations
 {
     /// <inheritdoc />
@@ -35,7 +33,8 @@ namespace Billing.Migrations
                     ProductId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Sold = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,6 +47,7 @@ namespace Billing.Migrations
                 {
                     InvoiceId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Confirmed = table.Column<bool>(type: "boolean", nullable: false),
                     CustomerId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -85,44 +85,6 @@ namespace Billing.Migrations
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Customers",
-                columns: new[] { "CustomerId", "Name", "PhNo", "email" },
-                values: new object[,]
-                {
-                    { 1, "John Doe", 1234567890L, "john@example.com" },
-                    { 2, "Jane Smith", 9876543210L, "jane@example.com" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "ProductId", "Name", "Price" },
-                values: new object[,]
-                {
-                    { 1, "Product A", 10.50m },
-                    { 2, "Product B", 20.75m },
-                    { 3, "Product C", 20.75m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Invoices",
-                columns: new[] { "InvoiceId", "CustomerId" },
-                values: new object[,]
-                {
-                    { 1L, 1 },
-                    { 2L, 2 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "InvoiceProducts",
-                columns: new[] { "Id", "InvoiceId", "ProductId" },
-                values: new object[,]
-                {
-                    { 1, 1L, 1 },
-                    { 2, 1L, 2 },
-                    { 3, 2L, 3 }
                 });
 
             migrationBuilder.CreateIndex(
