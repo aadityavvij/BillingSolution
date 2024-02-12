@@ -13,6 +13,7 @@
 			</div>
 		}
 		<input asp-for="ProductId" hidden />
+		<input asp-for="StoreId" hidden />
 		<div class="mb-3">
 			<label asp-for="Name"></label>
 			<input asp-for="Name" class="form-control" />
@@ -20,9 +21,9 @@
 
 		</div>
 		<div class="mb-3">
-			<label asp-for="ProductId"></label>
-			<input asp-for="ProductId" class="form-control" />
-			<span asp-validation-for="ProductId" class="text-danger"></span>
+			<label asp-for="ProductCode"></label>
+			<input asp-for="ProductCode" class="form-control" />
+			<span asp-validation-for="ProductCode" class="text-danger"></span>
 
 		</div>
 		<div class="mb-3">

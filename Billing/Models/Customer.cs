@@ -8,6 +8,8 @@ namespace Billing.Models
 	{
 		[Key]
 		public int CustomerId { get; set; }
+		[Required] 
+		public string StoreId { get; set;}
 		[Required]
 		[DisplayName("Name")]
 		public string Name { get; set; }

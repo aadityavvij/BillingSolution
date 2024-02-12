@@ -1,14 +1,18 @@
 ﻿using Billing.Data;
 using Billing.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
 namespace Billing.Controllers
 {
-	public class BillDetailsController(ApplicationDbContext db) : Controller
+	public class BillDetailsController(ApplicationDbContext db, UserManager<IdentityUser> UserManager) : Controller
 	{
 		private readonly ApplicationDbContext _db = db;
+		private readonly UserManager<IdentityUser> _UserManager = UserManager;
+		[Authorize]
 		public IActionResult Index(long? id)
 		{
 			if (id == null || id == 0)
@@ -29,12 +33,13 @@ namespace Billing.Controllers
 			}
 			return View(objInvoiceProductList);
 		}
+		[Authorize]
 		public IActionResult Add(long? id)
-		{
-			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
+        {
+			var objCategoryList = _db.Products.Where(o => o.StoreId == _UserManager.GetUserId(User)).Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
-
+		[Authorize]
 		[HttpPost]
 		public IActionResult Add(InvoiceProduct iProduct)
 		{

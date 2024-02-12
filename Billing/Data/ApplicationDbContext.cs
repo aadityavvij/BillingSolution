@@ -1,9 +1,10 @@
 ﻿using Billing.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Billing.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
             base(options)
@@ -16,7 +17,8 @@ namespace Billing.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.UseSerialColumns();
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.UseSerialColumns();
 		}
 	}
 }

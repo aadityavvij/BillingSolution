@@ -3,29 +3,34 @@ using Microsoft.AspNetCore.Mvc;
 using Billing.Models;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Billing.Controllers
 {
-    public class ProductsController(ApplicationDbContext db, IWebHostEnvironment hostEnvironment) : Controller
+    public class ProductsController(ApplicationDbContext db, UserManager<IdentityUser> UserManager) : Controller
     {
         private readonly ApplicationDbContext _db = db;
-        private readonly IWebHostEnvironment webHostEnvironment = hostEnvironment;
-
+		private readonly UserManager<IdentityUser> _UserManager = UserManager;
+		[Authorize]
         public IActionResult Index()
         {
-			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
+			var objCategoryList = _db.Products.Where(o => o.StoreId == _UserManager.GetUserId(User)).Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
+		[Authorize]
 		public IActionResult Create()
 		{
 			Product product = new Product();
 			return View(product);
 		}
+		[Authorize]
 		[HttpPost]
 		public IActionResult Create(Product product)
 		{
 			try
 			{
+				product.StoreId = _UserManager.GetUserId(User);
 				_db.Products.Add(product);
 				_db.SaveChanges();
 				TempData["SuccessMessage"] = "Added successfully";
@@ -37,7 +42,7 @@ namespace Billing.Controllers
 				return View();
 			}
 		}
-
+		[Authorize]
 		public IActionResult Edit(int? id)
 		{
 			if (id == null || id == 0)
@@ -52,6 +57,7 @@ namespace Billing.Controllers
 			}
 			return View(product);
 		}
+		[Authorize]
 		[HttpPost]
 		public IActionResult Edit(Product product)
 		{
@@ -69,7 +75,7 @@ namespace Billing.Controllers
 			}
 		}
 
-
+		[Authorize]
 		[HttpPost]
 		public IActionResult Delete(Product product)
 		{
