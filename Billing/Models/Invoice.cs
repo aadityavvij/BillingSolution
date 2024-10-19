@@ -7,8 +7,6 @@ namespace Billing.Models
 	{
 		[Key]
         public long InvoiceId { get; set; }
-        [Required]
-        public string StoreId { get; set; }
         public bool Confirmed { get; set; }
         [Required]
 		[ForeignKey("Customer")]

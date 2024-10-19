@@ -36,7 +36,7 @@ namespace Billing.Controllers
 		[Authorize]
 		public IActionResult Add(long? id)
         {
-			var objCategoryList = _db.Products.Where(o => o.StoreId == _UserManager.GetUserId(User)).Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
+			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
 		[Authorize]

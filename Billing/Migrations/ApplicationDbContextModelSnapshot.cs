@@ -37,10 +37,6 @@ namespace Billing.Migrations
                     b.Property<long>("PhNo")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("StoreId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -63,10 +59,6 @@ namespace Billing.Migrations
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("StoreId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("InvoiceId");
 
@@ -118,10 +110,6 @@ namespace Billing.Migrations
 
                     b.Property<bool>("Sold")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("StoreId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("ProductId");
 

@@ -15,7 +15,7 @@ namespace Billing.Controllers
 		[Authorize]
 		public IActionResult Index()
 		{
-			List<Invoice> objInvoiceList = _db.Invoices.Where(o => o.StoreId == _UserManager.GetUserId(User)).Include(u => u.Customer).ToList();
+			List<Invoice> objInvoiceList = _db.Invoices.Include(u => u.Customer).ToList();
 			return View(objInvoiceList);
 		}
 		[Authorize]
@@ -26,7 +26,7 @@ namespace Billing.Controllers
 		[Authorize]
 		public IActionResult Customer(long id)
 		{
-			Customer? customer = _db.Customers.Where(o => o.StoreId == _UserManager.GetUserId(User)).FirstOrDefault(p => p.PhNo == id);
+			Customer? customer = _db.Customers.FirstOrDefault(p => p.PhNo == id);
 			if (customer == null)
 			{
 				Customer customer2 = new Customer
@@ -43,13 +43,11 @@ namespace Billing.Controllers
 		{
 			try
 			{
-				customer.StoreId = _UserManager.GetUserId(User);
 				_db.Customers.Update(customer);
 				_db.SaveChanges();
 
 				Invoice invoice = new Invoice();
 				invoice.CustomerId = customer.CustomerId;
-				invoice.StoreId = _UserManager.GetUserId(User);
                 _db.Invoices.Add(invoice);
 				_db.SaveChanges();
 

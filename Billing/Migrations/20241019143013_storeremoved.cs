@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Billing.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDatabase : Migration
+    public partial class storeremoved : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,7 +57,6 @@ namespace Billing.Migrations
                 {
                     CustomerId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    StoreId = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     PhNo = table.Column<long>(type: "bigint", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false)
@@ -73,7 +72,6 @@ namespace Billing.Migrations
                 {
                     ProductId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    StoreId = table.Column<string>(type: "text", nullable: false),
                     ProductCode = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
@@ -196,7 +194,6 @@ namespace Billing.Migrations
                 {
                     InvoiceId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    StoreId = table.Column<string>(type: "text", nullable: false),
                     Confirmed = table.Column<bool>(type: "boolean", nullable: false),
                     CustomerId = table.Column<int>(type: "integer", nullable: false)
                 },

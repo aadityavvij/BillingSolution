@@ -15,7 +15,7 @@ namespace Billing.Controllers
 		[Authorize]
         public IActionResult Index()
         {
-			var objCategoryList = _db.Products.Where(o => o.StoreId == _UserManager.GetUserId(User)).Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
+			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
 		[Authorize]
@@ -30,7 +30,6 @@ namespace Billing.Controllers
 		{
 			try
 			{
-				product.StoreId = _UserManager.GetUserId(User);
 				_db.Products.Add(product);
 				_db.SaveChanges();
 				TempData["SuccessMessage"] = "Added successfully";

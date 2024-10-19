@@ -11,8 +11,6 @@ namespace Billing.Models
 		[DisplayName("Product Id")]
 		public int ProductId { get; set; }
         [Required]
-        public string StoreId { get; set; }
-        [Required]
         [DisplayName("Product Code")]
         public int ProductCode { get; set; }
         [Required]
