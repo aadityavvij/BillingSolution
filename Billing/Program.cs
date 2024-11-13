@@ -25,6 +25,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -38,6 +41,17 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/Identity"))
+    {
+        context.Response.Redirect("/");
+    }
+    else
+    {
+        await next();
+    }
+});
 
 // Seed roles
 using (var scope = app.Services.CreateScope())
