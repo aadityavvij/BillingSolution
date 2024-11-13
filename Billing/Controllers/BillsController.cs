@@ -12,19 +12,19 @@ namespace Billing.Controllers
     {
 		private readonly ApplicationDbContext _db = db;
 		private readonly UserManager<IdentityUser> _UserManager = UserManager;
-		[Authorize]
-		public IActionResult Index()
+        [Authorize(Roles = "Admin,SalesStaff")]
+        public IActionResult Index()
 		{
 			List<Invoice> objInvoiceList = _db.Invoices.Include(u => u.Customer).ToList();
 			return View(objInvoiceList);
 		}
-		[Authorize]
-		public IActionResult Create()
+        [Authorize(Roles = "Admin,SalesStaff")]
+        public IActionResult Create()
 		{
 			return View();
 		}
-		[Authorize]
-		public IActionResult Customer(long id)
+        [Authorize(Roles = "Admin,SalesStaff")]
+        public IActionResult Customer(long id)
 		{
 			Customer? customer = _db.Customers.FirstOrDefault(p => p.PhNo == id);
 			if (customer == null)
@@ -37,8 +37,8 @@ namespace Billing.Controllers
 			}
 			return View(customer);
 		}
-		[Authorize]
-		[HttpPost]
+        [Authorize(Roles = "Admin,SalesStaff")]
+        [HttpPost]
 		public IActionResult Customer(Customer customer)
 		{
 			try

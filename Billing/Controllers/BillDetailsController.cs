@@ -12,8 +12,8 @@ namespace Billing.Controllers
 	{
 		private readonly ApplicationDbContext _db = db;
 		private readonly UserManager<IdentityUser> _UserManager = UserManager;
-		[Authorize]
-		public IActionResult Index(long? id)
+        [Authorize(Roles = "Admin,SalesStaff")]
+        public IActionResult Index(long? id)
 		{
 			if (id == null || id == 0)
 			{
@@ -33,14 +33,14 @@ namespace Billing.Controllers
 			}
 			return View(objInvoiceProductList);
 		}
-		[Authorize]
-		public IActionResult Add(long? id)
+        [Authorize(Roles = "Admin,SalesStaff")]
+        public IActionResult Add(long? id)
         {
 			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
-		[Authorize]
-		[HttpPost]
+        [Authorize(Roles = "Admin,SalesStaff")]
+        [HttpPost]
 		public IActionResult Add(InvoiceProduct iProduct)
 		{
 			try

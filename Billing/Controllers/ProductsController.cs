@@ -12,20 +12,20 @@ namespace Billing.Controllers
     {
         private readonly ApplicationDbContext _db = db;
 		private readonly UserManager<IdentityUser> _UserManager = UserManager;
-		[Authorize]
+        [Authorize(Roles = "Admin,WarehouseStaff")]
         public IActionResult Index()
         {
 			var objCategoryList = _db.Products.Where(p => p.Sold == false).ToList().GroupBy(p => p.Name);
 			return View(objCategoryList);
 		}
-		[Authorize]
-		public IActionResult Create()
+        [Authorize(Roles = "Admin,WarehouseStaff")]
+        public IActionResult Create()
 		{
 			Product product = new Product();
 			return View(product);
 		}
-		[Authorize]
-		[HttpPost]
+        [Authorize(Roles = "Admin,WarehouseStaff")]
+        [HttpPost]
 		public IActionResult Create(Product product)
 		{
 			try
@@ -41,8 +41,8 @@ namespace Billing.Controllers
 				return View();
 			}
 		}
-		[Authorize]
-		public IActionResult Edit(int? id)
+        [Authorize(Roles = "Admin,WarehouseStaff")]
+        public IActionResult Edit(int? id)
 		{
 			if (id == null || id == 0)
 			{
@@ -56,8 +56,8 @@ namespace Billing.Controllers
 			}
 			return View(product);
 		}
-		[Authorize]
-		[HttpPost]
+        [Authorize(Roles = "Admin,WarehouseStaff")]
+        [HttpPost]
 		public IActionResult Edit(Product product)
 		{
 			try
@@ -74,8 +74,8 @@ namespace Billing.Controllers
 			}
 		}
 
-		[Authorize]
-		[HttpPost]
+        [Authorize(Roles = "Admin,WarehouseStaff")]
+        [HttpPost]
 		public IActionResult Delete(Product product)
 		{
 			Product? pr = _db.Products.Find(product.ProductId);
